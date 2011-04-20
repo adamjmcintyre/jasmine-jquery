@@ -429,6 +429,29 @@ describe("jQuery matchers", function() {
     });
   });
 
+  describe("toBeInView", function(){
+    beforeEach(function(){
+        $('#view').remove()
+        var $view = $('<div id="view" style="position:fixed;top:0;left:0;">in view test</div>').prependTo('body');
+    })
+    it("Should pass on element within viewport bounds", function(){
+      expect($('#view')).toBeInView();        
+    });
+    it("Should pass negated on element outside viewport bounds", function(){
+      $('#view').css({
+          position : 'absolute',
+          top : -99999
+      });
+      
+      expect($('#view')).not.toBeInView();     
+    });  
+    
+    it("Should pass negated on hidden element", function(){
+      $('#view').hide();
+      expect($('#view')).not.toBeInView();        
+    });
+  });
+
   describe("toBeHidden", function() {
     it("should pass on hidden element", function() {
       setFixtures(sandbox().hide());
